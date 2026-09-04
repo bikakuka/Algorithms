@@ -4,6 +4,7 @@
 typedef struct Array {
     Data *d;
     size_t size;
+    FFree free_func; 
 } Array;
 
 // create array
@@ -19,6 +20,7 @@ Array *array_create(size_t size, FFree f)
     }
     
     arr->size = size;
+    arr->free_func = f;
     return arr;
 }
 
@@ -27,11 +29,17 @@ void array_delete(Array *arr)
 {
     if (arr){
         if (arr->d) {
+            if (arr->free_func){
+                for (size_t i = 0; i < arr->size; i++) {
+                    if (arr->d[i]) {
+                        arr->free_func((void*)arr->d[i]);
+                    }
+                }
+            }
             free(arr->d); 
             arr->d = NULL;
         }
         free(arr);
-        arr = NULL;                                  
     }
 }
 
@@ -39,7 +47,6 @@ void array_delete(Array *arr)
 Data array_get(Array *arr, size_t index)
 {
     if (index >= arr->size){
-        array_delete(arr);
         exit(1);
     }
     return arr->d[index];
@@ -49,8 +56,10 @@ Data array_get(Array *arr, size_t index)
 void array_set(Array *arr, size_t index, Data value)
 {
     if (index >= arr->size){
-        array_delete(arr);
         exit(1);
+    }
+    if (arr->free_func && arr->d[index]) {
+        arr->free_func((void*)arr->d[index]);
     }
     arr->d[index] = value;
 }
@@ -59,7 +68,6 @@ void array_set(Array *arr, size_t index, Data value)
 size_t array_size( Array *arr)
 {
     if (!arr){
-        array_delete(arr);
         exit(1);
     }
     return arr->size;

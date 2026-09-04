@@ -53,8 +53,9 @@ void task2(Array *arr)
     }
     for (size_t i = 0; i < array_size(temp); i++){
         int value = array_get(temp, i);
-        if (value == 2) printf("%d ", i);
+        if (value == 2) printf("%zu ", i);
     }
+    array_delete(temp);
     // O(arr->size + 1001) => O(n + const) => O(n) 
 }
 
