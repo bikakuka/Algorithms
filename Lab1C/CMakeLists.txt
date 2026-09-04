@@ -1,3 +1,6 @@
+cmake_minimum_required(VERSION 3.10)
+add_subdirectory(../LibraryC ${CMAKE_BINARY_DIR}/LibraryC)
+enable_testing()
 add_executable(Lab1C lab1.c)
 target_include_directories(Lab1C PUBLIC ../LibraryC)
 target_link_libraries(Lab1C LibraryC)
