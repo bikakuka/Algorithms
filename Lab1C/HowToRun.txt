@@ -1,0 +1,16 @@
+To run the program:
+1. in terminal in directory where located lab1.c type:"""
+mkdir build
+cd build
+cmake ..
+cmake --build .
+./lab1C.exe <PATH TO DATA FILE>
+
+"""
+
+To run tests:
+from build directory in terminal run:
+" ctest "
+
+
+all testcases located in ../lab1C/tests
