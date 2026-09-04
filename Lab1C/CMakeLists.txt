@@ -28,3 +28,11 @@ set_tests_properties(Test5_LargeArray PROPERTIES
 add_test(NAME Test6_AllZeros COMMAND Lab1C ${CMAKE_CURRENT_SOURCE_DIR}/tests/test6.txt)
 set_tests_properties(Test6_AllZeros PROPERTIES 
     PASS_REGULAR_EXPRESSION "\\+: 0.*0: 3.*-: 0.*1 4")
+
+add_test(NAME Test7_OutOfBoundUp COMMAND Lab1C ${CMAKE_CURRENT_SOURCE_DIR}/tests/test7.txt)
+set_tests_properties(Test7_OutOfBoundUp PROPERTIES 
+    PASS_REGULAR_EXPRESSION "\\+: 5.*0: 0.*-: 1.*some values are greather than 1000 or lower than 0, please input data in \\[0, 1000\\] interval")
+
+add_test(NAME Test8_OutOfBoundDown COMMAND Lab1C ${CMAKE_CURRENT_SOURCE_DIR}/tests/test8.txt)
+set_tests_properties(Test8_OutOfBoundDown PROPERTIES 
+    PASS_REGULAR_EXPRESSION "\\+: 5.*0: 0.*-: 1.*some values are greather than 1000 or lower than 0, please input data in \\[0, 1000\\] interval")
