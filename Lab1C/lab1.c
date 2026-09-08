@@ -1,8 +1,7 @@
 #include <stdio.h>
-#include "array.h"
+#include "lab1.h"
 #include <stdlib.h>
-void task1(Array *arr);
-void task2(Array *arr);
+
 
 Array *array_create_and_read(FILE *input)
 {
@@ -18,18 +17,4 @@ Array *array_create_and_read(FILE *input)
         array_set(arr, i, x);
     }
     return arr;
-}
-
-int main(int argc, char **argv)
-{
-    Array *arr = NULL;
-    FILE *input = fopen(argv[1], "r");
-    arr = array_create_and_read(input);
-    task1(arr);
-    array_delete(arr);
-    /* Create another array here */
-    arr = array_create_and_read(input);
-    task2(arr);
-    array_delete(arr);
-    fclose(input);
 }

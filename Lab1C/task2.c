@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "array.h" 
+#include "lab1.h"
 
 void task2(Array *arr)
 {
@@ -24,8 +25,20 @@ void task2(Array *arr)
     }
     for (size_t i = 0; i < array_size(temp); i++){
         int value = array_get(temp, i);
-        if (value == 2) printf("%zu ", i);
+        if (value == 2) {
+            printf("%d ", (int)i);}
     }
     array_delete(temp);
     // O(arr->size + 1001) => O(n + const) => O(n) 
+}
+
+int main(int argc, char **argv)
+{
+    Array *arr = NULL;
+    FILE *input = fopen(argv[1], "r");
+    arr = array_create_and_read(input);
+    task2(arr);
+    array_delete(arr);
+    fclose(input);
+    return 0;
 }
