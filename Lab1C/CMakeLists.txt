@@ -20,10 +20,18 @@ add_test(NAME Task1_AllNegative COMMAND task1 ${CMAKE_CURRENT_SOURCE_DIR}/tests/
 set_tests_properties(Task1_AllNegative PROPERTIES 
     PASS_REGULAR_EXPRESSION "\\+: 0.*0: 0.*-: 6")
 
-add_test(NAME Task2_WithDuplicates COMMAND task2 ${CMAKE_CURRENT_SOURCE_DIR}/tests/test7.txt)
+add_test(NAME Task2_WithDuplicates COMMAND task2 ${CMAKE_CURRENT_SOURCE_DIR}/tests/test2.txt)
 set_tests_properties(Task2_WithDuplicates PROPERTIES 
     PASS_REGULAR_EXPRESSION "1 4")
 
-add_test(NAME Task2_NoDuplicates COMMAND task2 ${CMAKE_CURRENT_SOURCE_DIR}/tests/test8.txt)
+add_test(NAME Task2_NoDuplicates COMMAND task2 ${CMAKE_CURRENT_SOURCE_DIR}/tests/test4.txt)
 set_tests_properties(Task2_NoDuplicates PROPERTIES 
     PASS_REGULAR_EXPRESSION "^[ \t]*$")
+
+add_test(NAME Test7_OutOfBoundUp COMMAND task2 ${CMAKE_CURRENT_SOURCE_DIR}/tests/test7.txt)
+set_tests_properties(Test7_OutOfBoundUp PROPERTIES 
+    PASS_REGULAR_EXPRESSION "\\some values are greather than 1000 or lower than 0, please input data in \\[0, 1000\\] interval")
+
+add_test(NAME Test8_OutOfBoundDown COMMAND task2 ${CMAKE_CURRENT_SOURCE_DIR}/tests/test8.txt)
+set_tests_properties(Test8_OutOfBoundDown PROPERTIES 
+    PASS_REGULAR_EXPRESSION "\\some values are greather than 1000 or lower than 0, please input data in \\[0, 1000\\] interval")
