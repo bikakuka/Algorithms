@@ -19,19 +19,21 @@ int main()
     if (vector_size(vector) != 5)
     {
         std::cout << "Invalid resize\n";
+        vector_delete(vector);
         return 1;
     }
 
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
-        vector_set(vector, i, new int(i));
+        vector_set(vector, i, (Data)new int(i));
 
-    vector_set(vector, 0, new int(0));
+    vector_set(vector, 0, (Data)new int(0));
 
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
     {
         if (vector_get_int(vector, i) != (int)i)
         {
             std::cout << "Invalid vector element " << i << "\n";
+            vector_delete(vector);
             return 1;
         }
     }
@@ -40,11 +42,11 @@ int main()
     if (vector_size(vector) != 10)
     {
         std::cout << "Invalid resize\n";
+        vector_delete(vector);
         return 1;
     }
-
     std::cout << "Vector: ";
-    for (size_t i = 0 ; i < vector_size(vector) ; ++i)
+    for (size_t i = 0 ; i < 5 ; ++i)
         std::cout << vector_get_int(vector, i) << " ";
     std::cout << "\n";
 
@@ -52,6 +54,7 @@ int main()
     if (vector_size(vector) != 3)
     {
         std::cout << "Invalid resize\n";
+        vector_delete(vector);
         return 1;
     }
 
@@ -60,6 +63,7 @@ int main()
         if (vector_get_int(vector, i) != (int)i)
         {
             std::cout << "Invalid vector element " << i << "\n";
+            vector_delete(vector);
             return 1;
         }
     }
@@ -73,7 +77,7 @@ int main()
     for (int i = 1 ; i <= 10000000 ; ++i)
     {
         vector_resize(vector, i);
-        vector_set(vector, i - 1, new int(i));
+        vector_set(vector, i - 1, (Data)new int(i));
     }
 
     long long sum = 0;

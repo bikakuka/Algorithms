@@ -3,7 +3,7 @@
 
 int queue_get_int(Queue *q)
 {
-    void *v = queue_get(q);
+    void *v = (int *)queue_get(q);
     if (!v)
     {
         std::cout << "Invalid queue_get\n";
@@ -17,9 +17,9 @@ int main()
 {
     Queue *queue = queue_create([](void *p) { delete (int*)p; });
 
-    queue_insert(queue, new int(1));
-    queue_insert(queue, new int(2));
-    queue_insert(queue, new int(3));
+    queue_insert(queue, (Data)new int(1));
+    queue_insert(queue, (Data)new int(2));
+    queue_insert(queue, (Data)new int(3));
 
     if (queue_get_int(queue) != 1)
     {
@@ -49,7 +49,7 @@ int main()
     }
 
     std::cout << "Get: " << queue_get_int(queue) << "\n";
-    queue_insert(queue, new int(4));
+    queue_insert(queue, (Data)new int(4));
     while (!queue_empty(queue))
     {
         std::cout << "Get: " << queue_get_int(queue) << "\n";
@@ -57,10 +57,10 @@ int main()
     }
 
     // Performance test
-    queue_insert(queue, new int(0));
+    queue_insert(queue, (Data)new int(0));
     for (int i = 1 ; i <= 1000000 ; ++i)
     {
-        queue_insert(queue, new int(i));
+        queue_insert(queue, (Data)new int(i));
     }
 
     for (int i = 1 ; i <= 1000000 ; ++i)
@@ -70,19 +70,19 @@ int main()
 
     for (int i = 1 ; i <= 1000000 ; ++i)
     {
-        queue_insert(queue, new int(i));
+        queue_insert(queue, (Data)new int(i));
         queue_remove(queue);
     }
 
     queue_delete(queue);
 
     queue = queue_create([](void *p) { delete (int*)p; });
-    queue_insert(queue, new int(0));
+    queue_insert(queue, (Data)new int(0));
     for (int i = 1 ; i <= 100000 ; ++i)
     {
         int cnt = 1 + i % 20;
         for (int j = 0 ; j < cnt ; ++j) {
-            queue_insert(queue, new int(i));
+            queue_insert(queue, (Data)new int(i));
         }
         for (int j = 0 ; j < cnt ; ++j) {
             queue_remove(queue);
