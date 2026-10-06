@@ -9,10 +9,11 @@ typedef struct State {
     size_t parent;
 } State;
 
+static const size_t factorial[9] = {1, 1, 2, 6, 24, 120, 720, 5040, 40320};
+
+static unsigned char visited[362880] = {0}; // 9!
+
 size_t state_rank(const State *state){
-    static const size_t factorial[9] = {
-        1, 1, 2, 6, 24, 120, 720, 5040, 40320
-    };
     size_t rank = 0;
     for (size_t i = 0; i < 9; i++) {
         size_t smaller = 0;
@@ -123,7 +124,6 @@ int main(int argc, char **argv){
         return 1;
     }
     size_t solution = SIZE_MAX;
-    static unsigned char visited[362880] = {0}; // 9!
     visited[state_rank(&start)] = 1;
     while (!queue_empty(queue)) {
         size_t index = (size_t)queue_get(queue);

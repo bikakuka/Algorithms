@@ -71,8 +71,8 @@ void vector_resize(Vector *vector, size_t size)
         else{
             if (SIZE_MAX / sizeof(Data) < size) return;
             size_t newcap = vector->capacity;
+            if (!newcap) newcap = 1;
             while (newcap < size){
-                if (!newcap) newcap = 1;
                 if (SIZE_MAX / sizeof(Data) / 2 < newcap){
                     newcap = size;
                     break;
