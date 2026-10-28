@@ -10,28 +10,40 @@ using namespace std;
 typedef Graph<string, long long> FlowGraph;
 typedef Vector<bool> Visited;
 typedef Vector<size_t> Parents;
+typedef Vector<size_t> VertexQueue;
 
 bool find_path(
     const FlowGraph &residual,
-    size_t current,
+    size_t source,
     size_t sink,
     Visited &visited,
     Parents &parent)
 {
-    visited.set(current, true);
+    VertexQueue pending;
+    pending.resize(residual.size());
+    if (pending.size() != residual.size()) {
+        throw length_error("queue is too big");
+    }
+    size_t head = 0;
+    size_t tail = 0;
+    visited.set(source, true);
+    pending.set(tail++, source);
 
-    if (current == sink) return true;
+    if (source == sink) return true;
 
-    for (auto it = residual.neighbors(current); it.valid(); it.next()) {
-        size_t next = it.get();
+    while (head < tail) {
+        size_t current = pending.get(head++);
 
-        if (visited.get(next)) continue;
-        if (residual.get_edge(current, next) <= 0) continue;
+        for (auto it = residual.neighbors(current); it.valid(); it.next()) {
+            size_t next = it.get();
+            if (visited.get(next)) continue;
+            if (residual.get_edge(current, next) <= 0) continue;
 
-        parent.set(next, current);
-
-        if (find_path(residual, next, sink, visited, parent))
-            return true;
+            visited.set(next, true);
+            parent.set(next, current);
+            if (next == sink) return true;
+            pending.set(tail++, next);
+        }
     }
 
     return false;

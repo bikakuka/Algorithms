@@ -42,3 +42,7 @@ set_tests_properties(FlowMissingTerminal PROPERTIES WILL_FAIL TRUE TIMEOUT 10)
 
 add_test(NAME FlowNoArgument COMMAND Lab4CPP)
 set_tests_properties(FlowNoArgument PROPERTIES WILL_FAIL TRUE TIMEOUT 10)
+
+add_test(NAME FlowReverseBFS COMMAND Lab4CPP ${CMAKE_CURRENT_SOURCE_DIR}/tests/reverse_bfs.txt)
+set_tests_properties(FlowReverseBFS PROPERTIES
+    PASS_REGULAR_EXPRESSION "^2\n$" TIMEOUT 10)
