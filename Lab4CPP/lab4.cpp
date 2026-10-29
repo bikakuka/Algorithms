@@ -1,4 +1,6 @@
 #include "graph.h"
+#include "../LibraryC/queue.h"
+#include <memory>
 #include <string>
 #include <limits>
 #include <stdexcept>
@@ -10,7 +12,7 @@ using namespace std;
 typedef Graph<string, long long> FlowGraph;
 typedef Vector<bool> Visited;
 typedef Vector<size_t> Parents;
-typedef Vector<size_t> VertexQueue;
+typedef unique_ptr<Queue, decltype(&queue_delete)> VertexQueue;
 
 bool find_path(
     const FlowGraph &residual,
@@ -19,20 +21,16 @@ bool find_path(
     Visited &visited,
     Parents &parent)
 {
-    VertexQueue pending;
-    pending.resize(residual.size());
-    if (pending.size() != residual.size()) {
-        throw length_error("queue is too big");
-    }
-    size_t head = 0;
-    size_t tail = 0;
+    VertexQueue pending(queue_create(nullptr), queue_delete);
+    if (!pending) throw bad_alloc();
     visited.set(source, true);
-    pending.set(tail++, source);
+    queue_insert(pending.get(), source);
 
     if (source == sink) return true;
 
-    while (head < tail) {
-        size_t current = pending.get(head++);
+    while (!queue_empty(pending.get())) {
+        size_t current = queue_get(pending.get());
+        queue_remove(pending.get());
 
         for (auto it = residual.neighbors(current); it.valid(); it.next()) {
             size_t next = it.get();
@@ -42,7 +40,7 @@ bool find_path(
             visited.set(next, true);
             parent.set(next, current);
             if (next == sink) return true;
-            pending.set(tail++, next);
+            queue_insert(pending.get(), next);
         }
     }
 

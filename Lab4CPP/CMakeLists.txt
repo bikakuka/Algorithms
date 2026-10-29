@@ -1,5 +1,6 @@
 add_executable(Lab4CPP lab4.cpp)
 target_include_directories(Lab4CPP PUBLIC ../LibraryCPPTemplate)
+target_link_libraries(Lab4CPP LibraryC)
 
 add_test(NAME FlowSimple COMMAND Lab4CPP ${CMAKE_CURRENT_SOURCE_DIR}/tests/simple.txt)
 set_tests_properties(FlowSimple PROPERTIES
